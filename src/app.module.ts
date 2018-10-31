@@ -5,6 +5,7 @@ import * as dotenv from 'dotenv';
 import { SharedModule } from './modules/shared/shared.module';
 import { CoreModule } from 'core';
 import { CustomerModule } from './modules/customer/customer.module';
+import { ProductModule } from './modules/product/product.module';
 
 dotenv.load({path: '.env'});
 
@@ -15,6 +16,7 @@ dotenv.load({path: '.env'});
     SharedModule,
     CoreModule,
     CustomerModule,
+    ProductModule,
   ],
 })
 

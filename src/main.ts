@@ -22,7 +22,9 @@ async function bootstrap() {
     .setTitle('Invoice App Swagger')
     .setDescription('API for Invoice App')
     .setVersion('1.0')
+    .setBasePath('api')
     .addTag('Customer')
+    .addTag('Product')
     .build();
   const document = SwaggerModule.createDocument(app, options);
   SwaggerModule.setup('/swagger', app, document);

@@ -19,7 +19,7 @@ export class CreateCustomerDto extends CoreDto {
         .then((customer) => !customer)
         .catch(() => true);
     },
-    {message: 'Name already exists'},
+    {message: 'Customer Name already exists'},
   )
   @IsNotEmpty()
   @IsString()
