@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { validateOrReject } from 'class-validator';
@@ -6,12 +6,14 @@ import { validateOrReject } from 'class-validator';
 import { Customer, UpdateCustomer } from './customer.interface';
 import { CreateCustomerDto } from './dto/create-customer.dto';
 import { UpdateCustomerDto } from './dto/update-customer.dto';
+import { InvoiceService } from '../invoice/invoice.service';
 
 
 @Injectable()
 export class CustomerService {
   constructor(
     @InjectModel('Customer') private readonly customerModel: Model<Customer>,
+    private readonly invoiceService: InvoiceService,
   ) {
   }
 
@@ -26,14 +28,12 @@ export class CustomerService {
   async create(customer: CreateCustomerDto): Promise<Customer> {
     const customerDto = new CreateCustomerDto(customer);
     await validateOrReject(customerDto);
-
     return this.customerModel.create(customerDto);
   }
 
   async update(query: UpdateCustomer, customer: UpdateCustomerDto): Promise<Customer> {
     const customerDto = new UpdateCustomerDto(customer);
     await validateOrReject(customerDto);
-
     return this.customerModel.findOneAndUpdate(
       query,
       customer,
@@ -42,6 +42,10 @@ export class CustomerService {
   }
 
   async delete(id: string): Promise<Customer> {
+    const customerInvoices = await this.invoiceService.getByCustomerId(id);
+    if (customerInvoices.length) {
+      throw new HttpException('Customer has invoices', HttpStatus.BAD_REQUEST);
+    }
     return this.customerModel.findByIdAndDelete(id);
   }
 }

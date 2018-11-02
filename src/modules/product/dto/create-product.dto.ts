@@ -1,6 +1,6 @@
+import { ApiModelProperty } from '@nestjs/swagger';
 import { IsNotEmpty, IsNumber, IsString, ValidationArguments } from 'class-validator';
 import { CustomValidateFn } from 'validation-decorators';
-import { ApiModelProperty } from '@nestjs/swagger';
 
 import { CoreDto } from '../../shared/utils/dto/core.dto';
 import { ProductService } from '../product.service';
@@ -12,7 +12,6 @@ export class CreateProductDto extends CoreDto {
   @CustomValidateFn('unique',
     (value: string, args: ValidationArguments, argsObject) => {
       const productService = app.get(ProductService);
-      
       return productService.findByName(value)
         .then((product) => !product)
         .catch(() => true);
@@ -22,12 +21,12 @@ export class CreateProductDto extends CoreDto {
   @IsNotEmpty()
   @IsString()
   public name: string = undefined;
-  
+
   @ApiModelProperty()
   @IsNotEmpty()
   @IsNumber()
   public price: number = undefined;
-  
+
   constructor(protected input: any = {}, currentProduct?) {
     super(currentProduct);
     this.populateFields(input);

@@ -13,31 +13,31 @@ export class CustomerController {
   constructor(
     private readonly customerService: CustomerService,
   ) {}
-  
+
   @ApiOperation({title: 'Get Customer List'})
   @Get()
   async getAll() {
     return await this.customerService.get();
   }
-  
+
   @ApiOperation({title: 'Get Customer By Id'})
   @Get(':id')
   async get(@Param('id') id: string) {
     return await this.customerService.get(id);
   }
-  
+
   @ApiOperation({title: 'Create Customer'})
   @Post()
   async create(@Body() customer: CreateCustomerDto) {
     return await this.customerService.create(customer);
   }
-  
+
   @ApiOperation({title: 'Update Customer'})
   @Put(':id')
   async update(@Param('id') id: string, @Body() customer: UpdateCustomerDto) {
     return await this.customerService.update({_id: id}, customer);
   }
-  
+
   @ApiOperation({title: 'Delete Customer'})
   @Delete(':id')
   async delete(@Param('id') id: string) {

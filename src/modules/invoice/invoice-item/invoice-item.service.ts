@@ -1,9 +1,8 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { validateOrReject } from 'class-validator';
 
-import { CustomerService } from '../../customer/customer.service';
 import { InvoiceItem, UpdateInvoiceItem } from './invoice-item.interface';
 import { CreateInvoiceItemDto } from './dto/create-invoice-item.dto';
 import { UpdateInvoiceItemDto } from './dto/update-invoice-item.dto';
@@ -14,7 +13,6 @@ import { UpdateInvoiceItemDto } from './dto/update-invoice-item.dto';
 export class InvoiceItemService {
   constructor(
     @InjectModel('InvoiceItem') private readonly invoiceItemModel: Model<InvoiceItem>,
-    private readonly customerService: CustomerService,
   ) {
   }
 
@@ -22,8 +20,12 @@ export class InvoiceItemService {
     return id ? this.invoiceItemModel.findById(id) : this.invoiceItemModel.find();
   }
 
-  async getByInvoiceId(id?: string): Promise<InvoiceItem | InvoiceItem[]> {
+  async getByInvoiceId(id?: string): Promise<InvoiceItem[]> {
     return this.invoiceItemModel.find({invoice_id: id});
+  }
+
+  async getByProductId(id?: string): Promise<InvoiceItem[]> {
+    return this.invoiceItemModel.find({product_id: id});
   }
 
   async create(invoiceId: string, invoiceItems: CreateInvoiceItemDto[]): Promise<InvoiceItem[]> {
@@ -38,7 +40,6 @@ export class InvoiceItemService {
   async update(query: UpdateInvoiceItem, invoice: UpdateInvoiceItemDto): Promise<InvoiceItem> {
     const invoiceItemDto = new UpdateInvoiceItemDto(invoice);
     await validateOrReject(invoiceItemDto);
-
     return this.invoiceItemModel.findOneAndUpdate(
       query,
       invoice,

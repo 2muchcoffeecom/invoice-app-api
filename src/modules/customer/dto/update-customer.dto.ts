@@ -1,7 +1,8 @@
-import { IsOptional } from 'class-validator';
 import { ApiModelPropertyOptional } from '@nestjs/swagger';
+import { IsOptional } from 'class-validator';
 
 import { CreateCustomerDto } from './create-customer.dto';
+
 
 export class UpdateCustomerDto extends CreateCustomerDto {
   @ApiModelPropertyOptional()

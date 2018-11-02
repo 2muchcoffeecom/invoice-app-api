@@ -19,17 +19,19 @@ export class InvoiceService {
     return id ? this.invoiceModel.findById(id) : this.invoiceModel.find();
   }
 
+  async getByCustomerId(customerId?: string): Promise<Invoice[]> {
+    return this.invoiceModel.find({customer_id: customerId});
+  }
+
   async create(invoice: CreateInvoiceDto): Promise<Invoice> {
     const invoiceDto = new CreateInvoiceDto(invoice);
     await validateOrReject(invoiceDto);
-
     return this.invoiceModel.create(invoiceDto);
   }
 
   async update(query: UpdateInvoice, invoice: UpdateInvoiceDto): Promise<Invoice> {
     const invoiceDto = new UpdateInvoiceDto(invoice);
     await validateOrReject(invoiceDto);
-
     return this.invoiceModel.findOneAndUpdate(
       query,
       invoice,
