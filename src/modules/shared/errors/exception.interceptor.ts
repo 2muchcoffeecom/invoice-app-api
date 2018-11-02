@@ -17,8 +17,8 @@ export class ExceptionInterceptor implements NestInterceptor {
         const resError = this.errorsService.parse(error);
         return throwError(
           new HttpException(
-            resError.message || resError.response,
-            resError.status || resError.statusCode || resError.errorNumber,
+            resError.message,
+            resError.status,
           ),
         );
       }),

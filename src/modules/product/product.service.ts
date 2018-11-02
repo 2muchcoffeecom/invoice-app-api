@@ -23,14 +23,14 @@ export class ProductService {
     return this.productModel.findOne({name}).lean();
   }
 
-  async create(product: Product): Promise<Product> {
+  async create(product: CreateProductDto): Promise<Product> {
     const productDto = new CreateProductDto(product);
     await validateOrReject(productDto);
 
     return this.productModel.create(productDto);
   }
 
-  async update(query: UpdateProduct, product: UpdateProduct): Promise<Product> {
+  async update(query: UpdateProduct, product: UpdateProductDto): Promise<Product> {
     const productDto = new UpdateProductDto(product);
     await validateOrReject(productDto);
 

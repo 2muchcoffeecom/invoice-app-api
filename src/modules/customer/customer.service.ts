@@ -23,14 +23,14 @@ export class CustomerService {
     return this.customerModel.findOne({name}).lean();
   }
 
-  async create(customer: Customer): Promise<Customer> {
+  async create(customer: CreateCustomerDto): Promise<Customer> {
     const customerDto = new CreateCustomerDto(customer);
     await validateOrReject(customerDto);
 
     return this.customerModel.create(customerDto);
   }
 
-  async update(query: UpdateCustomer, customer: UpdateCustomer): Promise<Customer> {
+  async update(query: UpdateCustomer, customer: UpdateCustomerDto): Promise<Customer> {
     const customerDto = new UpdateCustomerDto(customer);
     await validateOrReject(customerDto);
 

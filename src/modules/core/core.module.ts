@@ -5,6 +5,7 @@ import { ErrorsService } from '../shared/services/errors.service';
 import { CustomerService } from '../customer/customer.service';
 import { ProductService } from '../product/product.service';
 import { InvoiceService } from '../invoice/invoice.service';
+import { InvoiceItemService } from '../invoice/invoice-item/invoice-item.service';
 
 
 const SERVICES = [
@@ -12,6 +13,7 @@ const SERVICES = [
   CustomerService,
   ProductService,
   InvoiceService,
+  InvoiceItemService,
 ];
 
 @Global()

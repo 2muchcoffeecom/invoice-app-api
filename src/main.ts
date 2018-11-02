@@ -25,6 +25,7 @@ async function bootstrap() {
     .setBasePath('api')
     .addTag('Customer')
     .addTag('Product')
+    .addTag('Invoice')
     .build();
   const document = SwaggerModule.createDocument(app, options);
   SwaggerModule.setup('/swagger', app, document);

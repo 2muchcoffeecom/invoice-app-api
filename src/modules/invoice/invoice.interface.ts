@@ -9,6 +9,7 @@ export interface Invoice extends Document {
 
 export interface UpdateInvoice {
   readonly _id?: string;
+  readonly customer_id?: string;
   readonly discount?: number;
   readonly total?: number;
 }

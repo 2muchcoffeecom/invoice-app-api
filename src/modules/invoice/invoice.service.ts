@@ -1,4 +1,4 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { validateOrReject } from 'class-validator';
@@ -6,15 +6,12 @@ import { validateOrReject } from 'class-validator';
 import { Invoice, UpdateInvoice } from './invoice.interface';
 import { CreateInvoiceDto } from './dto/create-invoice.dto';
 import { UpdateInvoiceDto } from './dto/update-invoice.dto';
-import { CustomerService } from '../customer/customer.service';
-
 
 
 @Injectable()
 export class InvoiceService {
   constructor(
     @InjectModel('Invoice') private readonly invoiceModel: Model<Invoice>,
-    private readonly customerService: CustomerService,
   ) {
   }
 
@@ -22,14 +19,14 @@ export class InvoiceService {
     return id ? this.invoiceModel.findById(id) : this.invoiceModel.find();
   }
 
-  async create(invoice: Invoice): Promise<Invoice> {
+  async create(invoice: CreateInvoiceDto): Promise<Invoice> {
     const invoiceDto = new CreateInvoiceDto(invoice);
     await validateOrReject(invoiceDto);
 
     return this.invoiceModel.create(invoiceDto);
   }
 
-  async update(query: UpdateInvoice, invoice: UpdateInvoice): Promise<Invoice> {
+  async update(query: UpdateInvoice, invoice: UpdateInvoiceDto): Promise<Invoice> {
     const invoiceDto = new UpdateInvoiceDto(invoice);
     await validateOrReject(invoiceDto);
 

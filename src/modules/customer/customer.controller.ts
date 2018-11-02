@@ -2,7 +2,9 @@ import { Get, Controller, Post, Body, Param, Put, Delete } from '@nestjs/common'
 import { ApiOperation, ApiUseTags } from '@nestjs/swagger';
 
 import { CustomerService } from './customer.service';
-import { Customer, UpdateCustomer } from './customer.interface';
+import { Customer } from './customer.interface';
+import { CreateCustomerDto } from './dto/create-customer.dto';
+import { UpdateCustomerDto } from './dto/update-customer.dto';
 
 
 @ApiUseTags('Customer')
@@ -26,13 +28,13 @@ export class CustomerController {
   
   @ApiOperation({title: 'Create Customer'})
   @Post()
-  async create(@Body() customer: Customer) {
+  async create(@Body() customer: CreateCustomerDto) {
     return await this.customerService.create(customer);
   }
   
   @ApiOperation({title: 'Update Customer'})
   @Put(':id')
-  async update(@Param('id') id: string, @Body() customer: UpdateCustomer) {
+  async update(@Param('id') id: string, @Body() customer: UpdateCustomerDto) {
     return await this.customerService.update({_id: id}, customer);
   }
   

@@ -2,14 +2,19 @@ import { Injectable, HttpStatus } from '@nestjs/common';
 import { ValidationError } from 'class-validator';
 
 
+interface Error {
+  status: number;
+  message: string | string[];
+}
+
 @Injectable()
 export class ErrorsService {
   parse(err) {
     console.log('ERROR', err);
 
-    const error: {status: number, message: string | string[]} = {
-      status: err.status,
-      message: err.message,
+    const error: Error = {
+      status: err.status || err.statusCode || err.errorNumber,
+      message: err.message || err.response,
     };
     if (err instanceof Array) {
       error.message = err.reduce((acc, value) => {
