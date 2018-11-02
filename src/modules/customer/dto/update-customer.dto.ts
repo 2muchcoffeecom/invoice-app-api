@@ -9,7 +9,7 @@ export class UpdateCustomerDto extends CreateCustomerDto {
   @IsOptional()
   public phone: string = undefined;
 
-  @ApiModelPropertyOptional()
+  @ApiModelPropertyOptional({uniqueItems: true})
   @IsOptional()
   public name: string = undefined;
 

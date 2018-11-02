@@ -5,10 +5,10 @@ import { CreateProductDto } from './create-product.dto';
 
 
 export class UpdateProductDto extends CreateProductDto {
-  @ApiModelPropertyOptional()
+  @ApiModelPropertyOptional({uniqueItems: true})
   @IsOptional()
   public name: string = undefined;
-  
+
   @ApiModelPropertyOptional()
   @IsOptional()
   public price: number = undefined;

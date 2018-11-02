@@ -1,13 +1,13 @@
 export class CoreDto {
   protected currentUser: any;
   protected input: any;
-  
+
   constructor(currentUser?) {
     if (currentUser) {
       this.currentUser = currentUser;
     }
   }
-  
+
   protected populateFields(input) {
     for (const key in this) {
       if (input.hasOwnProperty(key)) {
@@ -20,7 +20,7 @@ export class CoreDto {
       }
     }
   }
-  
+
   protected populateNestedField(NestedDto, key) {
     if (!this.input[key]) {
       return;
@@ -31,6 +31,5 @@ export class CoreDto {
     } else {
       this[key] = new NestedDto(this.input[key]);
     }
-    
   }
 }

@@ -8,7 +8,7 @@ import { app } from '../../../main';
 
 
 export class CreateProductDto extends CoreDto {
-  @ApiModelProperty()
+  @ApiModelProperty({uniqueItems: true})
   @CustomValidateFn('unique',
     (value: string, args: ValidationArguments, argsObject) => {
       const productService = app.get(ProductService);

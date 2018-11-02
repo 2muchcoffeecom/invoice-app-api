@@ -13,7 +13,7 @@ export class CreateCustomerDto extends CoreDto {
   @IsPhoneNumber('')
   public phone: string = undefined;
 
-  @ApiModelProperty()
+  @ApiModelProperty({uniqueItems: true})
   @CustomValidateFn('unique',
     (value: string, args: ValidationArguments, argsObject) => {
       const customerService = app.get(CustomerService);
