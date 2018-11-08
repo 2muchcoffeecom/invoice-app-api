@@ -23,6 +23,7 @@ async function bootstrap() {
     .setDescription('API for Invoice App')
     .setVersion('1.0')
     .setBasePath('api')
+    .setSchemes('https')
     .addTag('Customer')
     .addTag('Product')
     .addTag('Invoice')

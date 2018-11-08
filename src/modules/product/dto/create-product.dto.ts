@@ -1,6 +1,6 @@
 import { ApiModelProperty } from '@nestjs/swagger';
 import { IsNotEmpty, IsNumber, IsString, ValidationArguments } from 'class-validator';
-import { CustomValidateFn } from 'validation-decorators';
+import { CustomValidateFn } from '../../shared/decorators/validations.decorator';
 
 import { CoreDto } from '../../shared/utils/dto/core.dto';
 import { ProductService } from '../product.service';

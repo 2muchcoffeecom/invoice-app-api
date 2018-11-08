@@ -2,7 +2,7 @@ import { IsMongoId, IsNotEmpty, IsNumber, IsOptional, ValidationArguments } from
 import { ApiModelProperty, ApiModelPropertyOptional } from '@nestjs/swagger';
 
 import { CoreDto } from '../../../shared/utils/dto/core.dto';
-import { CustomValidateFn } from 'validation-decorators';
+import { CustomValidateFn } from '../../../shared/decorators/validations.decorator';
 import { app } from '../../../../main';
 import { InvoiceService } from '../../invoice.service';
 import { ProductService } from '../../../product/product.service';

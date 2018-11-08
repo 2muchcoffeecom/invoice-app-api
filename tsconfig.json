@@ -12,12 +12,7 @@
     "sourceMap": true,
     "allowJs": true,
     "outDir": "./dist",
-    "baseUrl": "./src",
-    "paths": {
-      "validation-decorators": ["modules/shared/decorators/validations.decorator.ts"],
-      "core": ["modules/core/core.module.ts"],
-      "shared": ["modules/shared"]
-    }
+    "baseUrl": "./src"
   },
   "include": [
     "src/**/*"
