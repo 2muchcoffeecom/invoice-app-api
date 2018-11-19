@@ -1,0 +1,22 @@
+type Customer {
+    _id: MongoId
+    name: String
+    phone: String
+    address: String
+}
+
+input UpdateCustomerInput {
+    _id: String!
+    name: String
+    phone: String
+    address: String
+}
+
+type Query {
+    customer(id: String!): Customer
+    customers: [Customer]
+}
+
+type Mutation {
+    updateCustomer(input: UpdateCustomerInput): Customer
+}

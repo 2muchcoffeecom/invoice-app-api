@@ -32,7 +32,8 @@ export class CustomerService {
   }
 
   async update(query: UpdateCustomer, customer: UpdateCustomerDto): Promise<Customer> {
-    const customerDto = new UpdateCustomerDto(customer);
+    const updatedCustomer = query._id ? {_id: query._id, ...customer} : customer;
+    const customerDto = new UpdateCustomerDto(updatedCustomer);
     await validateOrReject(customerDto);
     return this.customerModel.findOneAndUpdate(
       query,

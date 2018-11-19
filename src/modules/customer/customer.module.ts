@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 
 import { SharedModule } from '../shared/shared.module';
 import { CustomerController } from './customer.controller';
+import { CustomerResolver } from './customer.resolver';
 
 
 @Module({
@@ -11,8 +12,10 @@ import { CustomerController } from './customer.controller';
   controllers: [
     CustomerController,
   ],
-  exports: [
+  providers: [
+    CustomerResolver,
   ],
+  exports: [],
 })
 
 export class CustomerModule {
