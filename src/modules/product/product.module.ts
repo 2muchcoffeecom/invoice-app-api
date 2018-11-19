@@ -11,8 +11,7 @@ import { ProductController } from './product.controller';
   controllers: [
     ProductController,
   ],
-  exports: [
-  ],
+  exports: [],
 })
 
 export class ProductModule {

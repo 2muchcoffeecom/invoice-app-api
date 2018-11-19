@@ -8,8 +8,9 @@ import { ErrorsService } from '../services/errors.service';
 @Injectable()
 export class ExceptionInterceptor implements NestInterceptor {
   constructor(
-     private errorsService: ErrorsService,
-  ) {}
+    private errorsService: ErrorsService,
+  ) {
+  }
 
   intercept(context: ExecutionContext, stream$: Observable<any>): Observable<any> {
     return stream$.pipe(

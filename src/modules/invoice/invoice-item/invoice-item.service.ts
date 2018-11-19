@@ -8,7 +8,6 @@ import { CreateInvoiceItemDto } from './dto/create-invoice-item.dto';
 import { UpdateInvoiceItemDto } from './dto/update-invoice-item.dto';
 
 
-
 @Injectable()
 export class InvoiceItemService {
   constructor(

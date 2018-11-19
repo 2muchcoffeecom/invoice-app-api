@@ -12,7 +12,8 @@ import { UpdateCustomerDto } from './dto/update-customer.dto';
 export class CustomerController {
   constructor(
     private readonly customerService: CustomerService,
-  ) {}
+  ) {
+  }
 
   @ApiOperation({title: 'Get Customer List'})
   @Get()

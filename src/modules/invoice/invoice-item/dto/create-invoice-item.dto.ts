@@ -23,8 +23,8 @@ export class CreateInvoiceItemDto extends CoreDto {
     {message: 'Invoice not exists'},
   )
   public invoice_id: string = undefined;
-  
-  @ApiModelProperty({ type: String, required: true })
+
+  @ApiModelProperty({type: String, required: true})
   @IsNotEmpty()
   @IsMongoId()
   @CustomValidateFn('exists',
@@ -38,8 +38,8 @@ export class CreateInvoiceItemDto extends CoreDto {
     {message: 'Product not exists'},
   )
   public product_id: string = undefined;
-  
-  @ApiModelProperty({ type: Number, required: true })
+
+  @ApiModelProperty({type: Number, required: true})
   @IsNotEmpty()
   @IsNumber()
   public quantity: number = undefined;

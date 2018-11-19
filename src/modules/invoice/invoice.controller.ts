@@ -15,7 +15,8 @@ export class InvoiceController {
   constructor(
     private readonly invoiceService: InvoiceService,
     private readonly invoiceItemService: InvoiceItemService,
-  ) {}
+  ) {
+  }
 
   @ApiOperation({title: 'Get Invoice List'})
   @Get()

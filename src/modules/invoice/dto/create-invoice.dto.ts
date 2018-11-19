@@ -21,7 +21,7 @@ export class CreateInvoiceDto extends CoreDto {
   @IsNotEmpty()
   @IsMongoId()
   public customer_id: string = undefined;
-  
+
   @ApiModelPropertyOptional()
   @IsOptional()
   @IsNumber()

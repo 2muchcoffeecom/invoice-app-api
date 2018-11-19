@@ -12,7 +12,8 @@ import { UpdateProductDto } from './dto/update-product.dto';
 export class ProductController {
   constructor(
     private readonly productService: ProductService,
-  ) {}
+  ) {
+  }
 
   @ApiOperation({title: 'Get Product List'})
   @Get()
