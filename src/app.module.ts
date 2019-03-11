@@ -22,6 +22,7 @@ import { ScalarModule } from './modules/shared/modules/scalar/scalar.module';
       }),
     }),
     GraphQLModule.forRoot({
+      playground: true,
       typePaths: ['./**/*.graphql'],
       context: ({req, res}) => ({req, res}),
       formatError: (err) => {
