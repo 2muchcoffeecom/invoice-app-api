@@ -2,7 +2,7 @@ import { HttpException, Injectable, ExecutionContext, NestInterceptor } from '@n
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
-import { ErrorsService } from '../services/errors.service';
+import { ErrorsService } from '../../core/services/errors.service';
 
 
 @Injectable()

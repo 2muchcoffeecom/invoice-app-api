@@ -5,8 +5,8 @@ import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { AppModule } from './app.module';
 import { HttpExceptionFilter } from './modules/shared/errors/http-exception.filter';
 import { ExceptionInterceptor } from './modules/shared/errors/exception.interceptor';
-import { ErrorsService } from './modules/shared/services/errors.service';
-import { ConfigService } from './modules/shared/services/config.service';
+import { ErrorsService } from './modules/core/services/errors.service';
+import { ConfigService } from './modules/core/services/config.service';
 
 
 export let app: INestApplication & INestExpressApplication;
