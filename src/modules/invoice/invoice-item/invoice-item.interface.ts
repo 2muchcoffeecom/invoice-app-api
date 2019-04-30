@@ -12,3 +12,9 @@ export interface UpdateInvoiceItem {
   readonly product_id?: string;
   readonly quantity?: number;
 }
+
+export interface CreateInvoiceItem {
+  readonly invoice_id?: string;
+  readonly product_id?: string;
+  readonly quantity?: number;
+}

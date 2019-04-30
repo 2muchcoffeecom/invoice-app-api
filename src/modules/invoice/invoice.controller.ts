@@ -5,7 +5,7 @@ import { InvoiceService } from './invoice.service';
 import { InvoiceItemService } from './invoice-item/invoice-item.service';
 import { CreateInvoiceDto } from './dto/create-invoice.dto';
 import { UpdateInvoiceDto } from './dto/update-invoice.dto';
-import { CreateInvoiceItemDto } from './invoice-item/dto/create-invoice-item.dto';
+import { CreateInvoiceItem } from './invoice-item/invoice-item.interface';
 import { UpdateInvoiceItemDto } from './invoice-item/dto/update-invoice-item.dto';
 
 
@@ -56,9 +56,10 @@ export class InvoiceController {
 
   @ApiOperation({title: 'Create Invoice Item/Items'})
   @Post(':id/items')
-  async createItems(@Param('id') id: string, @Body() invoiceItem: CreateInvoiceItemDto) {
-    const invoiceItems: CreateInvoiceItemDto[] = Array.isArray(invoiceItem) ? invoiceItem : [invoiceItem];
-    return await this.invoiceItemService.create(id, invoiceItems);
+  async createItems(@Param('id') id: string, @Body() invoiceItem: CreateInvoiceItem) {
+    const invoiceItems: CreateInvoiceItem[] = Array.isArray(invoiceItem) ? invoiceItem : [invoiceItem];
+    const mappedInvoiceItems = this.invoiceItemService.addInvoiceIdToItem(id, invoiceItems);
+    return await this.invoiceItemService.create(mappedInvoiceItems);
   }
 
   @ApiOperation({title: 'Get Invoice Item By Id'})
