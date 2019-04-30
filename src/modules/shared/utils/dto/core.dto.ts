@@ -10,7 +10,7 @@ export class CoreDto {
 
   protected populateFields(input) {
     for (const key in this) {
-      if (input.hasOwnProperty(key)) {
+      if (Object.hasOwnProperty.call(input, key)) {
         const value = input[key];
         if (value) {
           this[key] = value;
