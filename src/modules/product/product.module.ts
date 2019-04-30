@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 
 import { SharedModule } from '../shared/shared.module';
 import { ProductController } from './product.controller';
+import { ProductResolver } from './product.resolver';
 
 
 @Module({
@@ -10,6 +11,9 @@ import { ProductController } from './product.controller';
   ],
   controllers: [
     ProductController,
+  ],
+  providers: [
+    ProductResolver,
   ],
   exports: [],
 })
