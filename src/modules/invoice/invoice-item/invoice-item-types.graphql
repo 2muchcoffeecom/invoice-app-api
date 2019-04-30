@@ -1,0 +1,30 @@
+type InvoiceItem {
+    _id: MongoId
+    invoice_id: String
+    product_id: String
+    quantity: Int
+    product: Product
+}
+
+input UpdateInvoiceItemInput {
+    _id: String!
+    invoice_id: String
+    product_id: String
+    quantity: Int
+}
+
+input CreateInvoiceItemInput {
+    invoice_id: String
+    product_id: String
+    quantity: Int
+}
+
+type Query {
+    invoiceItem(id: String!): InvoiceItem
+    invoiceItems(invoiceId: String!): [InvoiceItem]
+}
+
+type Mutation {
+    updateInvoiceItem(input: UpdateInvoiceItemInput): InvoiceItem
+    createInvoiceItems(input: [CreateInvoiceItemInput]!): [InvoiceItem]
+}
