@@ -2,7 +2,7 @@ import { Get, Controller, Post, Body, Param, Put, Delete } from '@nestjs/common'
 import { ApiOperation, ApiUseTags } from '@nestjs/swagger';
 
 import { ProductService } from './product.service';
-import { Product } from './product.interface';
+import { Product, UpdateProduct } from './product.interface';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
 
@@ -35,7 +35,7 @@ export class ProductController {
 
   @ApiOperation({title: 'Update Product'})
   @Put(':id')
-  async update(@Param('id') id: string, @Body() product: UpdateProductDto) {
+  async update(@Param('id') id: string, @Body() product: UpdateProduct) {
     return await this.productService.update({_id: id}, product);
   }
 

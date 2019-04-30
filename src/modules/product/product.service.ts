@@ -31,7 +31,7 @@ export class ProductService {
     return this.productModel.create(productDto);
   }
 
-  async update(query: UpdateProduct, product: UpdateProductDto): Promise<Product> {
+  async update(query: UpdateProduct, product: UpdateProduct): Promise<Product> {
     const productDto = new UpdateProductDto(product);
     await validateOrReject(productDto);
     return this.productModel.findOneAndUpdate(
