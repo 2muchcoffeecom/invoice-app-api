@@ -1,4 +1,4 @@
-import { Mutation, Query, ResolveProperty, Resolver } from '@nestjs/graphql';
+import { Mutation, Query, Resolver } from '@nestjs/graphql';
 
 import { Customer } from './customer.interface';
 import { CustomerService } from './customer.service';
@@ -12,21 +12,24 @@ export class CustomerResolver {
   }
 
   @Query('customers')
-  async getUsers(obj, args, context, info) {
+  async getCustomers(obj, args, context, info) {
     return await this.customerService.get();
   }
 
   @Query('customer')
-  async getUser(obj, args, context, info) {
+  async getCustomer(obj, args, context, info) {
     const {id} = args;
     return await this.customerService.get(id);
   }
 
   @Mutation('updateCustomer')
   async updateCustomer(_, {input}, context): Promise<Customer> {
+    return this.customerService.update({_id: input._id}, input);
+  }
 
-
-    return this.customerService.update({_id: context.req.user._id}, input);
+  @Mutation('createCustomer')
+  async createCustomer(_, {input}, context): Promise<Customer> {
+    return this.customerService.create(input);
   }
 
 }

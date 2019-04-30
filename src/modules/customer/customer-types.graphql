@@ -12,6 +12,12 @@ input UpdateCustomerInput {
     address: String
 }
 
+input CreateCustomerInput {
+    name: String
+    phone: String
+    address: String
+}
+
 type Query {
     customer(id: String!): Customer
     customers: [Customer]
@@ -19,4 +25,5 @@ type Query {
 
 type Mutation {
     updateCustomer(input: UpdateCustomerInput): Customer
+    createCustomer(input: CreateCustomerInput): Customer
 }
