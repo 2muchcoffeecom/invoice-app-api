@@ -1,5 +1,5 @@
 import { NestFactory } from '@nestjs/core';
-import { INestApplication, INestExpressApplication } from '@nestjs/common';
+import { INestApplication } from '@nestjs/common';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 
 import { AppModule } from './app.module';
@@ -9,7 +9,7 @@ import { ErrorsService } from './modules/core/services/errors.service';
 import { ConfigService } from './modules/core/services/config.service';
 
 
-export let app: INestApplication & INestExpressApplication;
+export let app: INestApplication;
 
 async function bootstrap() {
   app = await NestFactory.create(AppModule);

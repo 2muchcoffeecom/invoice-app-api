@@ -36,7 +36,7 @@ export class GqlConfigService implements GqlOptionsFactory {
         return {
           message,
           fields,
-          code: err.originalError && err.originalError.code || code,
+          code: err.originalError && (err.originalError as any).code || code,
           locations: err.locations,
           path: err.path,
         };
