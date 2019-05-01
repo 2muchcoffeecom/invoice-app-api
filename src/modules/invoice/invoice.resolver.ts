@@ -34,8 +34,13 @@ export class InvoiceResolver {
   }
 
   @Mutation('updateInvoice')
-  async updateCustomer(_, { input }, context): Promise<Invoice> {
+  async updateInvoice(_, { input }, context): Promise<Invoice> {
     return await this.invoiceService.update({ _id: input._id }, input);
+  }
+
+  @Mutation('deleteInvoice')
+  async deleteInvoice(_, { input }, context): Promise<Invoice> {
+    return await this.invoiceService.delete(input);
   }
 
   @ResolveProperty('customer')

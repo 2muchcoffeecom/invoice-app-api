@@ -27,4 +27,5 @@ type Query {
 type Mutation {
     updateInvoice(input: UpdateCustomerInput): Invoice
     createInvoice(input: CreateInvoiceInput): Invoice
+    deleteInvoice(input: String): Invoice
 }
