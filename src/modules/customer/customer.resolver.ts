@@ -32,4 +32,9 @@ export class CustomerResolver {
     return this.customerService.create(input);
   }
 
+  @Mutation('deleteCustomer')
+  async deleteCustomer(_, {input}, context): Promise<Customer> {
+    return this.customerService.delete(input);
+  }
+
 }
