@@ -26,5 +26,6 @@ type Query {
 
 type Mutation {
     updateInvoiceItem(input: UpdateInvoiceItemInput): InvoiceItem
+    deleteInvoiceItem(input: String!): InvoiceItem
     createInvoiceItems(input: [CreateInvoiceItemInput]!): [InvoiceItem]
 }
