@@ -32,4 +32,9 @@ export class ProductResolver {
     return this.productService.create(input);
   }
 
+  @Mutation('deleteProduct')
+  async deleteProduct(_, { input }, context): Promise<Product> {
+    return this.productService.delete(input);
+  }
+
 }

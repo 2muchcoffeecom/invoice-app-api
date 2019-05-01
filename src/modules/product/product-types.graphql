@@ -24,4 +24,5 @@ type Query {
 type Mutation {
     updateProduct(input: UpdateProductInput): Product
     createProduct(input: CreateProductInput): Product
+    deleteProduct(input: String!): Product
 }
