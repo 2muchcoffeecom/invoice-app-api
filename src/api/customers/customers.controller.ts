@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 
-import { createCustomerInDb, getCustomerFromDb, getCustomersFromDb } from './customers.service';
+import { createCustomerInDb, getCustomerFromDb, getCustomersFromDb, updateCustomerInDb } from './customers.service';
 
 export function getCustomers(req: Request, res: Response): void {
   getCustomersFromDb()
@@ -28,6 +28,19 @@ export function getCustomer(req: Request, res: Response): void {
   const customerId = req.params.id;
 
   getCustomerFromDb(customerId)
+  .then((customer) => {
+    res.json(customer)
+  })
+  .catch((err) => {
+    res.status(500).json({ message: err.message });
+  });
+}
+
+export function updateCustomer(req: Request, res: Response): void {
+  const customerId = req.params.id;
+  const newFields = req.body;
+
+  updateCustomerInDb(customerId, newFields)
   .then((customer) => {
     res.json(customer)
   })
