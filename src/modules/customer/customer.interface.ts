@@ -13,3 +13,9 @@ export interface UpdateCustomer {
   readonly phone?: string;
   readonly address?: string;
 }
+
+export interface CreateCustomer {
+  readonly name?: string;
+  readonly phone?: string;
+  readonly address?: string;
+}

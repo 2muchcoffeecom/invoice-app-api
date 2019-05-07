@@ -3,7 +3,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { validateOrReject } from 'class-validator';
 
-import { Customer, UpdateCustomer } from './customer.interface';
+import { CreateCustomer, Customer, UpdateCustomer } from './customer.interface';
 import { CreateCustomerDto } from './dto/create-customer.dto';
 import { UpdateCustomerDto } from './dto/update-customer.dto';
 import { InvoiceService } from '../invoice/invoice.service';
@@ -25,13 +25,13 @@ export class CustomerService {
     return this.customerModel.findOne({name}).lean();
   }
 
-  async create(customer: CreateCustomerDto): Promise<Customer> {
+  async create(customer: CreateCustomer): Promise<Customer> {
     const customerDto = new CreateCustomerDto(customer);
     await validateOrReject(customerDto);
     return this.customerModel.create(customerDto);
   }
 
-  async update(query: UpdateCustomer, customer: UpdateCustomerDto): Promise<Customer> {
+  async update(query: UpdateCustomer, customer: UpdateCustomer): Promise<Customer> {
     const updatedCustomer = query._id ? {_id: query._id, ...customer} : customer;
     const customerDto = new UpdateCustomerDto(updatedCustomer);
     await validateOrReject(customerDto);

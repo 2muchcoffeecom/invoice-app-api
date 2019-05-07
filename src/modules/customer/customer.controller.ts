@@ -4,9 +4,7 @@ import { ApiOperation, ApiUseTags } from '@nestjs/swagger';
 import { ExceptionInterceptor } from '../shared/errors/exception.interceptor';
 
 import { CustomerService } from './customer.service';
-import { Customer } from './customer.interface';
-import { CreateCustomerDto } from './dto/create-customer.dto';
-import { UpdateCustomerDto } from './dto/update-customer.dto';
+import { CreateCustomer, Customer, UpdateCustomer } from './customer.interface';
 
 
 @ApiUseTags('Customer')
@@ -32,13 +30,13 @@ export class CustomerController {
 
   @ApiOperation({title: 'Create Customer'})
   @Post()
-  async create(@Body() customer: CreateCustomerDto) {
+  async create(@Body() customer: CreateCustomer) {
     return await this.customerService.create(customer);
   }
 
   @ApiOperation({title: 'Update Customer'})
   @Put(':id')
-  async update(@Param('id') id: string, @Body() customer: UpdateCustomerDto) {
+  async update(@Param('id') id: string, @Body() customer: UpdateCustomer) {
     return await this.customerService.update({_id: id}, customer);
   }
 
