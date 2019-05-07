@@ -1,7 +1,7 @@
-import { DocumentQuery } from "mongoose";
+import { DocumentQuery } from 'mongoose';
 
 import { ICustomer } from './customer.interface';
-import Customer from './customer.model'
+import Customer from './customer.model';
 
 import { HttpError } from 'utils/error-hadler/http-error';
 
@@ -22,8 +22,13 @@ export async function getCustomerFromDb(id: string): Promise<ICustomer> {
   return customer;
 }
 
-export async function updateCustomerInDb(id: string, newFields: ICustomer): Promise<ICustomer> {
-  const updatedEntity = await Customer.findByIdAndUpdate(id, newFields, { new: true });
+export async function updateCustomerInDb(
+  id: string,
+  newFields: ICustomer,
+): Promise<ICustomer> {
+  const updatedEntity = await Customer.findByIdAndUpdate(id, newFields, {
+    new: true,
+  });
   if (!updatedEntity) {
     throw new HttpError('Customer not found', 404);
   }
