@@ -17,22 +17,22 @@ export class CustomerResolver {
   }
 
   @Query('customer')
-  async getCustomer(obj, {id}: {id: string}, context, info) {
+  async getCustomer(obj, { id }: { id: string }, context, info) {
     return await this.customerService.get(id);
   }
 
   @Mutation('updateCustomer')
-  async updateCustomer(_, {input}: {input: UpdateCustomer}, context): Promise<Customer> {
-    return this.customerService.update({_id: input._id}, input);
+  async updateCustomer(_, { input }: { input: UpdateCustomer }, context): Promise<Customer> {
+    return this.customerService.update({ _id: input._id }, input);
   }
 
   @Mutation('createCustomer')
-  async createCustomer(_, {input}: {input: CreateCustomer}, context): Promise<Customer> {
+  async createCustomer(_, { input }: { input: CreateCustomer }, context): Promise<Customer> {
     return this.customerService.create(input);
   }
 
   @Mutation('deleteCustomer')
-  async deleteCustomer(_, {input}: {input: string}, context): Promise<Customer> {
+  async deleteCustomer(_, { input }: { input: string }, context): Promise<Customer> {
     return this.customerService.delete(input);
   }
 
