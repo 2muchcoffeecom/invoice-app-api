@@ -5,6 +5,7 @@ import dotenv from 'dotenv';
 import path from 'path';
 import mongoose from 'mongoose';
 import { Promise } from 'bluebird';
+import errorHandler from 'errorhandler';
 
 import setRouts from './routes';
 import { handleError } from './utils/error-hadler/handle-error';
@@ -44,6 +45,10 @@ app.use(
 );
 
 setRouts(app);
+
+if (process.env.PRODUCTION_MODE) {
+  app.use(errorHandler());
+}
 
 app.use(handleError);
 
