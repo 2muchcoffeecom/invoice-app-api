@@ -13,3 +13,9 @@ export interface UpdateInvoice {
   readonly discount?: number;
   readonly total?: number;
 }
+
+export interface CreateInvoice {
+  readonly customer_id?: string;
+  readonly discount?: number;
+  readonly total?: number;
+}

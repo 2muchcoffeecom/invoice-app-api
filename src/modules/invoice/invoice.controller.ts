@@ -4,9 +4,9 @@ import { ApiOperation, ApiUseTags } from '@nestjs/swagger';
 import { ExceptionInterceptor } from '../shared/errors/exception.interceptor';
 
 import { InvoiceService } from './invoice.service';
+import { CreateInvoice, UpdateInvoice } from './invoice.interface';
+
 import { InvoiceItemService } from './invoice-item/invoice-item.service';
-import { CreateInvoiceDto } from './dto/create-invoice.dto';
-import { UpdateInvoiceDto } from './dto/update-invoice.dto';
 import { CreateInvoiceItem } from './invoice-item/invoice-item.interface';
 import { UpdateInvoiceItemDto } from './invoice-item/dto/update-invoice-item.dto';
 
@@ -35,13 +35,13 @@ export class InvoiceController {
 
   @ApiOperation({title: 'Create Invoice'})
   @Post()
-  async create(@Body() invoice: CreateInvoiceDto) {
+  async create(@Body() invoice: CreateInvoice) {
     return await this.invoiceService.create(invoice);
   }
 
   @ApiOperation({title: 'Update Invoice'})
   @Put(':id')
-  async update(@Param('id') id: string, @Body() invoice: UpdateInvoiceDto) {
+  async update(@Param('id') id: string, @Body() invoice: UpdateInvoice) {
     return await this.invoiceService.update({_id: id}, invoice);
   }
 

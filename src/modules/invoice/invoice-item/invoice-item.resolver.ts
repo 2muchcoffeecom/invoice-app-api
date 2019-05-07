@@ -2,7 +2,8 @@ import { Mutation, Query, ResolveProperty, Resolver } from '@nestjs/graphql';
 
 import { InvoiceItemService } from './invoice-item.service';
 import { ProductService } from '../../product/product.service';
-import { InvoiceItem } from './invoice-item.interface';
+import { CreateInvoiceItem, InvoiceItem, UpdateInvoiceItem } from './invoice-item.interface';
+import { CreateInvoice } from '../invoice.interface';
 
 
 @Resolver('InvoiceItem')
@@ -19,29 +20,27 @@ export class InvoiceItemResolver {
   }
 
   @Query('invoice')
-  async getInvoice(obj, args, context, info) {
-    const { id } = args;
+  async getInvoice(obj, { id }: { id: string }, context, info) {
     return await this.invoiceItemService.get(id);
   }
 
   @Mutation('createInvoiceItems')
-  async createInvoice(_, { input }, context): Promise<InvoiceItem[]> {
+  async createInvoice(_, { input }: { input: CreateInvoiceItem[] }, context): Promise<InvoiceItem[]> {
     return await this.invoiceItemService.create(input);
   }
 
   @Mutation('updateInvoiceItem')
-  async updateInvoiceItem(_, { input }, context): Promise<InvoiceItem> {
+  async updateInvoiceItem(_, { input }: { input: UpdateInvoiceItem }, context): Promise<InvoiceItem> {
     return await this.invoiceItemService.update({ _id: input._id }, input);
   }
 
   @Mutation('deleteInvoiceItem')
-  async deleteInvoiceItem(_, { input }, context): Promise<InvoiceItem> {
+  async deleteInvoiceItem(_, { input }: { input: string }, context): Promise<InvoiceItem> {
     return await this.invoiceItemService.delete(input);
   }
 
   @ResolveProperty('product')
-  async getProduct(obj, args, context, info) {
-    const { product_id } = obj;
+  async getProduct({ product_id }: InvoiceItem, args, context, info) {
     return await this.productService.get(product_id);
   }
 }
