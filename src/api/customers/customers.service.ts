@@ -27,3 +27,11 @@ export async function updateCustomerInDb(id: string, newFields: ICustomer): Prom
   }
   return updatedEntity;
 }
+
+export async function deleteCustomerFromDb(id: string): Promise<ICustomer> {
+  const deletedEntity = await Customer.findByIdAndRemove(id);
+  if (!deletedEntity) {
+    throw Error('Customer not found');
+  }
+  return deletedEntity;
+}
