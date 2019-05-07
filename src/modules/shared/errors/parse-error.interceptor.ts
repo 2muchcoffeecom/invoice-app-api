@@ -25,3 +25,4 @@ export class ParseErrorInterceptor implements NestInterceptor {
         }),
       );
   }
+}
