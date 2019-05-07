@@ -41,8 +41,8 @@ export function updateCustomer(req: Request, res: Response): void {
   const newFields = req.body;
 
   updateCustomerInDb(customerId, newFields)
-  .then((customer) => {
-    res.json(customer)
+  .then((updatedCustomer) => {
+    res.json(updatedCustomer)
   })
   .catch((err) => {
     res.status(500).json({ message: err.message });
