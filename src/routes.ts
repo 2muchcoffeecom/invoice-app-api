@@ -1,6 +1,6 @@
 import { Express, Request, Response } from 'express';
 
-import customersRouts from './api/customers';
+import customersRouts from './modules/customers';
 
 export default function(app: Express) {
   app.use('/customers', customersRouts);
