@@ -1,6 +1,12 @@
 import { Request, Response } from 'express';
 
-import { createCustomerInDb, getCustomerFromDb, getCustomersFromDb, updateCustomerInDb } from './customers.service';
+import {
+  createCustomerInDb,
+  deleteCustomerFromDb,
+  getCustomerFromDb,
+  getCustomersFromDb,
+  updateCustomerInDb
+} from './customers.service';
 
 export function getCustomers(req: Request, res: Response): void {
   getCustomersFromDb()
@@ -43,6 +49,18 @@ export function updateCustomer(req: Request, res: Response): void {
   updateCustomerInDb(customerId, newFields)
   .then((updatedCustomer) => {
     res.json(updatedCustomer)
+  })
+  .catch((err) => {
+    res.status(500).json({ message: err.message });
+  });
+}
+
+export function deleteCustomer(req: Request, res: Response): void {
+  const customerId = req.params.id;
+
+  deleteCustomerFromDb(customerId)
+  .then(() => {
+    res.sendStatus(204);
   })
   .catch((err) => {
     res.status(500).json({ message: err.message });
