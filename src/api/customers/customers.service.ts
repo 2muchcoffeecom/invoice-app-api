@@ -12,10 +12,18 @@ export function createCustomerInDb(newCustomer: ICustomer): Promise<ICustomer> {
   return newEntity.save();
 }
 
-export async function getCustomerFromDb(id: string): Promise<ICustomer>  {
+export async function getCustomerFromDb(id: string): Promise<ICustomer> {
   const customer = await Customer.findById(id);
   if (!customer) {
     throw Error('Customer not found');
   }
   return customer;
+}
+
+export async function updateCustomerInDb(id: string, newFields: ICustomer): Promise<ICustomer> {
+  const updatedEntity = await Customer.findByIdAndUpdate(id, newFields, { new: true });
+  if (!updatedEntity) {
+    throw Error('Customer not found');
+  }
+  return updatedEntity;
 }
