@@ -7,6 +7,7 @@ import mongoose from 'mongoose';
 import { Promise } from 'bluebird';
 
 import setRouts from './routes';
+import { handleError } from './utils/error-hadler/handle-error';
 
 // Load environment variables from .env file
 dotenv.config();
@@ -43,5 +44,7 @@ app.use(
 );
 
 setRouts(app);
+
+app.use(handleError);
 
 export default app;

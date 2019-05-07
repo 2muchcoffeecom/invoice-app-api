@@ -1,7 +1,5 @@
 import { NextFunction, Request, Response } from 'express';
 
-import { handleError } from '../../utils/error-hadler/handle-error';
-
 import {
   createCustomerInDb,
   deleteCustomerFromDb,
@@ -15,7 +13,7 @@ export function getCustomers(req: Request, res: Response, next: NextFunction): v
   .then((customers) => {
     res.json(customers)
   })
-  .catch(handleError(next));
+  .catch(next);
 }
 
 export function createCustomer(req: Request, res: Response, next: NextFunction): void {
@@ -25,7 +23,7 @@ export function createCustomer(req: Request, res: Response, next: NextFunction):
   .then((newCustomer) => {
     res.status(201).json(newCustomer)
   })
-  .catch(handleError(next));
+  .catch(next);
 }
 
 export function getCustomer(req: Request, res: Response, next: NextFunction): void {
@@ -35,7 +33,7 @@ export function getCustomer(req: Request, res: Response, next: NextFunction): vo
   .then((customer) => {
     res.json(customer)
   })
-  .catch(handleError(next));
+  .catch(next);
 }
 
 export function updateCustomer(req: Request, res: Response, next: NextFunction): void {
@@ -46,7 +44,7 @@ export function updateCustomer(req: Request, res: Response, next: NextFunction):
   .then((updatedCustomer) => {
     res.json(updatedCustomer)
   })
-  .catch(handleError(next));
+  .catch(next);
 }
 
 export function deleteCustomer(req: Request, res: Response, next: NextFunction): void {
@@ -56,5 +54,5 @@ export function deleteCustomer(req: Request, res: Response, next: NextFunction):
   .then(() => {
     res.sendStatus(204);
   })
-  .catch(handleError(next));
+  .catch(next);
 }
