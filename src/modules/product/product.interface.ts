@@ -11,3 +11,8 @@ export interface UpdateProduct {
   readonly name?: string;
   readonly price?: number;
 }
+
+export interface CreateProduct {
+  readonly name?: string;
+  readonly price?: number;
+}

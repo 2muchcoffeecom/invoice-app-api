@@ -4,8 +4,7 @@ import { ApiOperation, ApiUseTags } from '@nestjs/swagger';
 import { ExceptionInterceptor } from '../shared/errors/exception.interceptor';
 
 import { ProductService } from './product.service';
-import { Product, UpdateProduct } from './product.interface';
-import { CreateProductDto } from './dto/create-product.dto';
+import { CreateProduct, Product, UpdateProduct } from './product.interface';
 
 
 @ApiUseTags('Product')
@@ -31,7 +30,7 @@ export class ProductController {
 
   @ApiOperation({title: 'Create Product'})
   @Post()
-  async create(@Body() product: CreateProductDto) {
+  async create(@Body() product: CreateProduct) {
     return await this.productService.create(product);
   }
 

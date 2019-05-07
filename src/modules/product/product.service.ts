@@ -3,7 +3,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { validateOrReject } from 'class-validator';
 
-import { Product, UpdateProduct } from './product.interface';
+import { CreateProduct, Product, UpdateProduct } from './product.interface';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
 import { InvoiceItemService } from '../invoice/invoice-item/invoice-item.service';
@@ -25,7 +25,7 @@ export class ProductService {
     return this.productModel.findOne({name}).lean();
   }
 
-  async create(product: CreateProductDto): Promise<Product> {
+  async create(product: CreateProduct): Promise<Product> {
     const productDto = new CreateProductDto(product);
     await validateOrReject(productDto);
     return this.productModel.create(productDto);
