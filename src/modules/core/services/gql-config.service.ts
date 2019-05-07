@@ -3,6 +3,8 @@ import { GqlOptionsFactory, GqlModuleOptions } from '@nestjs/graphql';
 
 import * as _ from 'lodash';
 
+import { ParsedError } from '../../shared/errors/parsed-error';
+
 
 @Injectable()
 export class GqlConfigService implements GqlOptionsFactory {
@@ -14,24 +16,18 @@ export class GqlConfigService implements GqlOptionsFactory {
       formatError: (err) => {
         console.log('ERROR', err);
 
-        let data: any;
         let message: string;
         let code: string;
         let fields: string;
 
-        try {
-          data = JSON.parse(err.message);
-        } catch (e) {
-          data = err.message;
+        if (_.isString(err.message) || _.isInteger(err.message)) {
+          message = err.message;
         }
-
-        if (_.isString(data) || _.isInteger(data)) {
-          message = data;
-        }
-        if (_.isObject(data)) {
-          fields = data.fields || undefined;
-          code = data.code || undefined;
-          message = data.message || undefined;
+        if (err.originalError && err.originalError instanceof ParsedError) {
+          const classError = err.originalError;
+          fields = classError.data || undefined;
+          message = classError.message || undefined;
+          code = classError.code || undefined;
         }
         return {
           message,
