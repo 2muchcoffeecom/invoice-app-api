@@ -1,5 +1,7 @@
-import { Get, Controller, Post, Body, Param, Put, Delete } from '@nestjs/common';
+import { Get, Controller, Post, Body, Param, Put, Delete, UseInterceptors } from '@nestjs/common';
 import { ApiOperation, ApiUseTags } from '@nestjs/swagger';
+
+import { ExceptionInterceptor } from '../shared/errors/exception.interceptor';
 
 import { InvoiceService } from './invoice.service';
 import { InvoiceItemService } from './invoice-item/invoice-item.service';
@@ -10,6 +12,7 @@ import { UpdateInvoiceItemDto } from './invoice-item/dto/update-invoice-item.dto
 
 
 @ApiUseTags('Invoice')
+@UseInterceptors(ExceptionInterceptor)
 @Controller('invoices')
 export class InvoiceController {
   constructor(

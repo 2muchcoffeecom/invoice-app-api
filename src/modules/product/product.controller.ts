@@ -1,13 +1,15 @@
-import { Get, Controller, Post, Body, Param, Put, Delete } from '@nestjs/common';
+import { Get, Controller, Post, Body, Param, Put, Delete, UseInterceptors } from '@nestjs/common';
 import { ApiOperation, ApiUseTags } from '@nestjs/swagger';
+
+import { ExceptionInterceptor } from '../shared/errors/exception.interceptor';
 
 import { ProductService } from './product.service';
 import { Product, UpdateProduct } from './product.interface';
 import { CreateProductDto } from './dto/create-product.dto';
-import { UpdateProductDto } from './dto/update-product.dto';
 
 
 @ApiUseTags('Product')
+@UseInterceptors(ExceptionInterceptor)
 @Controller('products')
 export class ProductController {
   constructor(

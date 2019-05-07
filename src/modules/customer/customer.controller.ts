@@ -1,5 +1,7 @@
-import { Get, Controller, Post, Body, Param, Put, Delete } from '@nestjs/common';
+import { Get, Controller, Post, Body, Param, Put, Delete, UseInterceptors } from '@nestjs/common';
 import { ApiOperation, ApiUseTags } from '@nestjs/swagger';
+
+import { ExceptionInterceptor } from '../shared/errors/exception.interceptor';
 
 import { CustomerService } from './customer.service';
 import { Customer } from './customer.interface';
@@ -8,6 +10,7 @@ import { UpdateCustomerDto } from './dto/update-customer.dto';
 
 
 @ApiUseTags('Customer')
+@UseInterceptors(ExceptionInterceptor)
 @Controller('customers')
 export class CustomerController {
   constructor(
