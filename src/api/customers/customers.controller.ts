@@ -1,4 +1,6 @@
-import { Request, Response } from 'express';
+import { NextFunction, Request, Response } from 'express';
+
+import { handleError } from '../../utils/error-hadler/handle-error';
 
 import {
   createCustomerInDb,
@@ -8,41 +10,35 @@ import {
   updateCustomerInDb
 } from './customers.service';
 
-export function getCustomers(req: Request, res: Response): void {
+export function getCustomers(req: Request, res: Response, next: NextFunction): void {
   getCustomersFromDb()
   .then((customers) => {
     res.json(customers)
   })
-  .catch(() => {
-    res.status(500).json({ message: 'An error occurred while processing the request' });
-  });
+  .catch(handleError(next));
 }
 
-export function createCustomer(req: Request, res: Response): void {
+export function createCustomer(req: Request, res: Response, next: NextFunction): void {
   const newCustomer = req.body;
 
   createCustomerInDb(newCustomer)
   .then((newCustomer) => {
     res.status(201).json(newCustomer)
   })
-  .catch((err) => {
-    res.status(500).json({ message: err.message });
-  });
+  .catch(handleError(next));
 }
 
-export function getCustomer(req: Request, res: Response): void {
+export function getCustomer(req: Request, res: Response, next: NextFunction): void {
   const customerId = req.params.id;
 
   getCustomerFromDb(customerId)
   .then((customer) => {
     res.json(customer)
   })
-  .catch((err) => {
-    res.status(500).json({ message: err.message });
-  });
+  .catch(handleError(next));
 }
 
-export function updateCustomer(req: Request, res: Response): void {
+export function updateCustomer(req: Request, res: Response, next: NextFunction): void {
   const customerId = req.params.id;
   const newFields = req.body;
 
@@ -50,19 +46,15 @@ export function updateCustomer(req: Request, res: Response): void {
   .then((updatedCustomer) => {
     res.json(updatedCustomer)
   })
-  .catch((err) => {
-    res.status(500).json({ message: err.message });
-  });
+  .catch(handleError(next));
 }
 
-export function deleteCustomer(req: Request, res: Response): void {
+export function deleteCustomer(req: Request, res: Response, next: NextFunction): void {
   const customerId = req.params.id;
 
   deleteCustomerFromDb(customerId)
   .then(() => {
     res.sendStatus(204);
   })
-  .catch((err) => {
-    res.status(500).json({ message: err.message });
-  });
+  .catch(handleError(next));
 }
