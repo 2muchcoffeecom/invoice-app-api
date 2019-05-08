@@ -6,6 +6,7 @@ import path from 'path';
 import mongoose from 'mongoose';
 import { Promise } from 'bluebird';
 import errorHandler from 'errorhandler';
+import cors from 'cors';
 
 import setRouts from './routes';
 import { handleError } from './utils/error-hadler/handle-error';
@@ -42,6 +43,7 @@ mongoose
 app.set('port', process.env.PORT || 3000);
 app.set('views', path.join(__dirname, '../views'));
 app.set('view engine', 'pug');
+app.use(cors());
 app.use(compression());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
