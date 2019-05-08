@@ -1,7 +1,7 @@
 import { DocumentQuery } from 'mongoose';
 
 import { IProduct } from './product.interface';
-import Product from './product.model';
+import Product from './product.schema';
 
 import { HttpError } from 'utils/error-hadler/http-error';
 
