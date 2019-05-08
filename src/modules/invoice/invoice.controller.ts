@@ -4,7 +4,7 @@ import { ApiOperation, ApiUseTags } from '@nestjs/swagger';
 import { ExceptionInterceptor } from '../shared/errors/exception.interceptor';
 
 import { InvoiceService } from './invoice.service';
-import { CreateInvoice, UpdateInvoice } from './invoice.interface';
+import { CreateInvoice, Invoice, UpdateInvoice } from './invoice.interface';
 
 import { InvoiceItemService } from './invoice-item/invoice-item.service';
 import { CreateInvoiceItem } from './invoice-item/invoice-item.interface';
@@ -24,13 +24,23 @@ export class InvoiceController {
   @ApiOperation({title: 'Get Invoice List'})
   @Get()
   async getAll() {
-    return await this.invoiceService.get();
+    const invoices = await this.invoiceService.get() as Invoice[];
+    Promise.all(invoices.map(async (invoice) =>
+      ({
+        ...invoice,
+        total: await this.invoiceItemService.getItemsTotalByInvoice(invoice._id),
+      }),
+    ));
   }
 
   @ApiOperation({title: 'Get Invoice By Id'})
   @Get(':id')
   async get(@Param('id') id: string) {
-    return await this.invoiceService.get(id);
+    const invoice = await this.invoiceService.get(id);
+    return {
+      ...invoice,
+      total: await this.invoiceItemService.getItemsTotalByInvoice(id),
+    };
   }
 
   @ApiOperation({title: 'Create Invoice'})
