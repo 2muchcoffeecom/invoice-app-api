@@ -15,17 +15,17 @@ export class InvoiceItemResolver {
   }
 
   @Query('invoiceItems')
-  async getInvoices(obj, args, context, info) {
+  async getInvoiceItems(obj, args, context, info) {
     return await this.invoiceItemService.get();
   }
 
-  @Query('invoice')
-  async getInvoice(obj, { id }: { id: string }, context, info) {
+  @Query('invoiceItem')
+  async getInvoiceItem(obj, { id }: { id: string }, context, info) {
     return await this.invoiceItemService.get(id);
   }
 
   @Mutation('createInvoiceItems')
-  async createInvoice(_, { input }: { input: CreateInvoiceItem[] }, context): Promise<InvoiceItem[]> {
+  async createInvoiceItems(_, { input }: { input: CreateInvoiceItem[] }, context): Promise<InvoiceItem[]> {
     return await this.invoiceItemService.create(input);
   }
 
