@@ -1,7 +1,7 @@
 import { DocumentQuery } from 'mongoose';
 
 import { ICustomer } from './customer.interface';
-import Customer from './customer.model';
+import Customer from './customer.schema';
 
 import { HttpError } from 'utils/error-hadler/http-error';
 
