@@ -51,4 +51,9 @@ export class InvoiceResolver {
   async getItems({ _id }: Invoice, args, context, info) {
     return await this.invoiceItemService.getByInvoiceId(_id);
   }
+
+  @ResolveProperty('total')
+  async getTotal({ _id }: Invoice, args, context, info) {
+    return this.invoiceItemService.getItemsTotalByInvoice(_id);
+  }
 }
