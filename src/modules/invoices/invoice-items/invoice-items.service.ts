@@ -1,5 +1,8 @@
 import Bluebird from 'bluebird';
+import { NextFunction } from 'express';
 import { DocumentQuery } from 'mongoose';
+
+import { IInvoice } from '../invoice.interface';
 
 import { IInvoiceItem } from './invoice-item.interface';
 import InvoiceItem from './invoice-item.schema';
@@ -66,4 +69,16 @@ export async function deleteInvoiceItemFromDb(invoiceId: string, id: string): Pr
     throw new HttpError('Invoice item not found', 404);
   }
   return deletedEntity;
+}
+
+/**
+ * Deletes all invoice items for current invoice
+ *
+ * @param {IInvoice} invoice
+ * @param {e.NextFunction} next
+ * @returns {Promise<void>}
+ */
+export async function deleteInvoiceItemsFromDb(invoice: IInvoice, next: NextFunction) {
+  await InvoiceItem.deleteMany({ invoice_id: invoice._id });
+  return next();
 }
