@@ -28,7 +28,6 @@ async function bootstrap() {
     .build();
   const document = SwaggerModule.createDocument(app, options);
   SwaggerModule.setup('/swagger', app, document);
-  // app.useGlobalInterceptors(new ExceptionInterceptor(new ErrorsService()));
   /**
    * Used for handling error and transforming them to parsed error
    * Used mostly for resolvers
