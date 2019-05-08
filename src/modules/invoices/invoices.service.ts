@@ -36,9 +36,9 @@ export async function updateInvoiceInDb(
 }
 
 export async function deleteInvoiceFromDb(id: string): Promise<IInvoice> {
-  const deletedEntity = await Invoice.findByIdAndRemove(id);
-  if (!deletedEntity) {
+  const foundEntity = await Invoice.findById(id);
+  if (!foundEntity) {
     throw new HttpError('Invoice not found', 404);
   }
-  return deletedEntity;
+  return foundEntity.remove();
 }
