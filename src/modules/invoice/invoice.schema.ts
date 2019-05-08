@@ -9,9 +9,6 @@ export const InvoiceSchema = new mongoose.Schema({
   discount: {
     type: Number,
   },
-  total: {
-    type: Number,
-  },
 }, {
   versionKey: false,
   timestamps: true,
