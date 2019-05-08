@@ -16,7 +16,7 @@ export class InvoiceService {
   }
 
   async get(id?: string): Promise<Invoice | Invoice[]> {
-    return id ? this.invoiceModel.findById(id) : this.invoiceModel.find();
+    return id ? this.invoiceModel.findById(id).lean() : this.invoiceModel.find().lean();
   }
 
   async getByCustomerId(customerId?: string): Promise<Invoice[]> {
