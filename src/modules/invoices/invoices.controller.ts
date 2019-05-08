@@ -1,4 +1,8 @@
 import { NextFunction, Request, Response } from 'express';
+import { Promise } from 'bluebird';
+
+import { IInvoiceItem } from './invoice-items/invoice-item.interface';
+import { createInvoiceItemInDb } from './invoice-items/invoice-items.service';
 
 import {
   createInvoiceInDb,
@@ -28,9 +32,13 @@ export function createInvoice(
   const newInvoice = req.body;
 
   createInvoiceInDb(newInvoice)
-  .then(newInvoice => {
-    res.status(201).json(newInvoice);
-  })
+  .then(createdInvoice => Promise.map(newInvoice.items, item => createInvoiceItemInDb({
+      ...item,
+      invoice_id: createdInvoice._id
+    } as IInvoiceItem)).then(() => {
+      res.status(201).json(createdInvoice);
+    })
+  )
   .catch(next);
 }
 
