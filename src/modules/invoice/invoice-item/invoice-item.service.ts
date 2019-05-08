@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
+import { Model, Types } from 'mongoose';
 import { validateOrReject } from 'class-validator';
 
 import { CreateInvoiceItem, InvoiceItem, UpdateInvoiceItem } from './invoice-item.interface';
@@ -48,6 +48,26 @@ export class InvoiceItemService {
 
   async delete(id: string): Promise<InvoiceItem> {
     return this.invoiceItemModel.findByIdAndDelete(id);
+  }
+
+  async getItemsTotalByInvoice(invoice_id: string) {
+    const [result] = await this.invoiceItemModel.aggregate([
+      { $match: { invoice_id: Types.ObjectId(invoice_id) } },
+      {
+        $group: {
+          _id: '$invoice_id',
+          allQuantities: { $push: '$quantity' },
+        },
+      },
+      {
+        $project: {
+          total: {
+            $reduce: { input: '$allQuantities', initialValue: 0, in: { $sum: ['$$value', '$$this'] } },
+          },
+        },
+      },
+    ]);
+    return result && result.total || 0;
   }
 
   addInvoiceIdToItem(invoice_id: string, items: CreateInvoiceItem[]): CreateInvoiceItem[] {
