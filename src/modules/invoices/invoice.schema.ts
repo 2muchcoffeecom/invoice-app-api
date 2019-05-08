@@ -1,5 +1,7 @@
 import { Schema, model } from 'mongoose';
 
+import { deleteInvoiceItemsFromDb } from './invoice-items/invoice-items.service';
+
 import { IInvoice } from './invoice.interface';
 
 const invoiceSchema = new Schema(
@@ -17,6 +19,8 @@ const invoiceSchema = new Schema(
     timestamps: true,
   },
 );
+
+invoiceSchema.post('remove', deleteInvoiceItemsFromDb);
 
 const invoice = model<IInvoice>('Invoice', invoiceSchema);
 
