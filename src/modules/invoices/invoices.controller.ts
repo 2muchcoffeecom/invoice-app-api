@@ -2,7 +2,10 @@ import { NextFunction, Request, Response } from 'express';
 import { Promise } from 'bluebird';
 
 import { IInvoiceItem } from './invoice-items/invoice-item.interface';
-import { createInvoiceItemInDb, createInvoiceItemsInDb } from './invoice-items/invoice-items.service';
+import {
+  createInvoiceItemInDb,
+  createInvoiceItemsInDb,
+} from './invoice-items/invoice-items.service';
 
 import {
   createInvoiceInDb,
@@ -18,10 +21,10 @@ export function getInvoices(
   next: NextFunction,
 ): void {
   getInvoicesFromDb()
-  .then(invoices => {
-    res.json(invoices);
-  })
-  .catch(next);
+    .then(invoices => {
+      res.json(invoices);
+    })
+    .catch(next);
 }
 
 export function createInvoice(
@@ -32,13 +35,13 @@ export function createInvoice(
   const newInvoice = req.body;
 
   createInvoiceInDb(newInvoice)
-  .then(createdInvoice =>
-    // create invoice items for current invoice
-    createInvoiceItemsInDb(createdInvoice._id, newInvoice.items).then(() => {
-      res.status(201).json(createdInvoice);
-    })
-  )
-  .catch(next);
+    .then(createdInvoice =>
+      // create invoice items for current invoice
+      createInvoiceItemsInDb(createdInvoice._id, newInvoice.items).then(() => {
+        res.status(201).json(createdInvoice);
+      }),
+    )
+    .catch(next);
 }
 
 export function getInvoice(
@@ -49,10 +52,10 @@ export function getInvoice(
   const invoiceId = req.params.id;
 
   getInvoiceFromDb(invoiceId)
-  .then(invoice => {
-    res.json(invoice);
-  })
-  .catch(next);
+    .then(invoice => {
+      res.json(invoice);
+    })
+    .catch(next);
 }
 
 export function updateInvoice(
@@ -64,10 +67,10 @@ export function updateInvoice(
   const newFields = req.body;
 
   updateInvoiceInDb(invoiceId, newFields)
-  .then(updatedInvoice => {
-    res.json(updatedInvoice);
-  })
-  .catch(next);
+    .then(updatedInvoice => {
+      res.json(updatedInvoice);
+    })
+    .catch(next);
 }
 
 export function deleteInvoice(
@@ -78,8 +81,8 @@ export function deleteInvoice(
   const invoiceId = req.params.id;
 
   deleteInvoiceFromDb(invoiceId)
-  .then(() => {
-    res.sendStatus(204);
-  })
-  .catch(next);
+    .then(() => {
+      res.sendStatus(204);
+    })
+    .catch(next);
 }

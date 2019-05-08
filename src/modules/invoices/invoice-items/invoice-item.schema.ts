@@ -20,8 +20,6 @@ const invoiceItemSchema = new Schema(
     versionKey: false,
     timestamps: true,
   },
-
-
 );
 
 const invoiceItem = model<IInvoiceItem>('InvoiceItem', invoiceItemSchema);

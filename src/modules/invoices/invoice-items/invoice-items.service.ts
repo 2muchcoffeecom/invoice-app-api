@@ -9,11 +9,15 @@ import InvoiceItem from './invoice-item.schema';
 
 import { HttpError } from 'utils/error-hadler/http-error';
 
-export function getInvoiceItemsFromDb(invoiceId: string): DocumentQuery<IInvoiceItem[], IInvoiceItem> {
+export function getInvoiceItemsFromDb(
+  invoiceId: string,
+): DocumentQuery<IInvoiceItem[], IInvoiceItem> {
   return InvoiceItem.find({ invoice_id: invoiceId });
 }
 
-export function createInvoiceItemInDb(newInvoiceItem: IInvoiceItem): Promise<IInvoiceItem> {
+export function createInvoiceItemInDb(
+  newInvoiceItem: IInvoiceItem,
+): Promise<IInvoiceItem> {
   const newEntity = new InvoiceItem(newInvoiceItem);
   return newEntity.save();
 }
@@ -25,17 +29,25 @@ export function createInvoiceItemInDb(newInvoiceItem: IInvoiceItem): Promise<IIn
  * @param {IInvoiceItem[]} newInvoiceItems
  * @returns {Bluebird<IInvoiceItem[]>}
  */
-export function createInvoiceItemsInDb(invoiceId: string, newInvoiceItems: IInvoiceItem[]): Bluebird<IInvoiceItem[]> {
-  return Bluebird.Promise.map(newInvoiceItems, item => createInvoiceItemInDb({
-    ...item,
-    invoice_id: invoiceId
-  } as IInvoiceItem));
+export function createInvoiceItemsInDb(
+  invoiceId: string,
+  newInvoiceItems: IInvoiceItem[],
+): Bluebird<IInvoiceItem[]> {
+  return Bluebird.Promise.map(newInvoiceItems, item =>
+    createInvoiceItemInDb({
+      ...item,
+      invoice_id: invoiceId,
+    } as IInvoiceItem),
+  );
 }
 
-export async function getInvoiceItemFromDb(invoiceId: string, id: string): Promise<IInvoiceItem[] | IInvoiceItem> {
+export async function getInvoiceItemFromDb(
+  invoiceId: string,
+  id: string,
+): Promise<IInvoiceItem[] | IInvoiceItem> {
   const invoiceItem = await InvoiceItem.find({
     invoice_id: invoiceId,
-    ObjectId: id
+    ObjectId: id,
   });
   if (!invoiceItem) {
     throw new HttpError('Invoice item not found for current invoice', 404);
@@ -51,7 +63,7 @@ export async function updateInvoiceItemInDb(
   const updatedEntity = await InvoiceItem.findOneAndUpdate(
     { invoice_id: invoiceId, ObjectId: id },
     newFields,
-    { new: true }
+    { new: true },
   );
 
   if (!updatedEntity) {
@@ -60,10 +72,13 @@ export async function updateInvoiceItemInDb(
   return updatedEntity;
 }
 
-export async function deleteInvoiceItemFromDb(invoiceId: string, id: string): Promise<IInvoiceItem> {
+export async function deleteInvoiceItemFromDb(
+  invoiceId: string,
+  id: string,
+): Promise<IInvoiceItem> {
   const deletedEntity = await InvoiceItem.findOneAndRemove({
     invoice_id: invoiceId,
-    ObjectId: id
+    ObjectId: id,
   });
   if (!deletedEntity) {
     throw new HttpError('Invoice item not found', 404);
@@ -78,7 +93,10 @@ export async function deleteInvoiceItemFromDb(invoiceId: string, id: string): Pr
  * @param {e.NextFunction} next
  * @returns {Promise<void>}
  */
-export async function deleteInvoiceItemsFromDb(invoice: IInvoice, next: NextFunction) {
+export async function deleteInvoiceItemsFromDb(
+  invoice: IInvoice,
+  next: NextFunction,
+) {
   await InvoiceItem.deleteMany({ invoice_id: invoice._id });
   return next();
 }

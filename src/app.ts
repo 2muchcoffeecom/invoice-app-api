@@ -27,7 +27,7 @@ mongoose
     // Set to true to make Mongoose's default index build use createIndex() instead of ensureIndex() to avoid deprecation warnings from the MongoDB driver.
     useCreateIndex: true,
     // Set to false to make findOneAndUpdate() and findOneAndRemove() use native findOneAndUpdate() rather than findAndModify().
-    useFindAndModify: false
+    useFindAndModify: false,
   } as mongoose.ConnectionOptions)
   .then(() => {
     console.log(`Connected to ${process.env.MONGODB_URI_LOCAL}`);

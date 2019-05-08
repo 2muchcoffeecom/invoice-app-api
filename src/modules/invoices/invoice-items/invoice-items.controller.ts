@@ -30,7 +30,7 @@ export function createInvoiceItem(
   const invoiceId = req.params.id;
   const newInvoiceItem = {
     invoice_id: invoiceId,
-    ...req.body
+    ...req.body,
   };
 
   createInvoiceItemInDb(newInvoiceItem)

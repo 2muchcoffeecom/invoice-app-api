@@ -1,13 +1,13 @@
 import { Router } from 'express';
 
-import invoiceItemsRouts from './invoice-items'
+import invoiceItemsRouts from './invoice-items';
 
 import {
   createInvoice,
   deleteInvoice,
   getInvoice,
   getInvoices,
-  updateInvoice
+  updateInvoice,
 } from './invoices.controller';
 
 const router = Router();
