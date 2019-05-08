@@ -10,13 +10,11 @@ input UpdateInvoiceInput {
     _id: String!
     customer_id: String!
     discount: Int
-    total: Int
 }
 
 input CreateInvoiceInput {
     customer_id: String!
     discount: Int
-    total: Int
 }
 
 type Query {
