@@ -1,3 +1,4 @@
+import Bluebird from 'bluebird';
 import { DocumentQuery } from 'mongoose';
 
 import { IInvoiceItem } from './invoice-item.interface';
@@ -12,6 +13,20 @@ export function getInvoiceItemsFromDb(invoiceId: string): DocumentQuery<IInvoice
 export function createInvoiceItemInDb(newInvoiceItem: IInvoiceItem): Promise<IInvoiceItem> {
   const newEntity = new InvoiceItem(newInvoiceItem);
   return newEntity.save();
+}
+
+/**
+ * Creates invoice items for new invoice
+ *
+ * @param {string} invoiceId
+ * @param {IInvoiceItem[]} newInvoiceItems
+ * @returns {Bluebird<IInvoiceItem[]>}
+ */
+export function createInvoiceItemsInDb(invoiceId: string, newInvoiceItems: IInvoiceItem[]): Bluebird<IInvoiceItem[]> {
+  return Bluebird.Promise.map(newInvoiceItems, item => createInvoiceItemInDb({
+    ...item,
+    invoice_id: invoiceId
+  } as IInvoiceItem));
 }
 
 export async function getInvoiceItemFromDb(invoiceId: string, id: string): Promise<IInvoiceItem[] | IInvoiceItem> {
