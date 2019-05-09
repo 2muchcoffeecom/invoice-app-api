@@ -12,7 +12,6 @@ const invoiceSchema = new Schema(
       required: true,
     },
     discount: { type: Number, min: 0, max: 50, required: true },
-    total: { type: Number, min: 0, required: true },
   },
   {
     versionKey: false,
