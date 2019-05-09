@@ -1,13 +1,10 @@
 import { NextFunction, Request, Response } from 'express';
 import { Promise } from 'bluebird';
 
-import { IInvoiceItem } from './invoice-items/invoice-item.interface';
-import {
-  createInvoiceItemInDb,
-  createInvoiceItemsInDb,
-} from './invoice-items/invoice-items.service';
+import { createInvoiceItemsInDb } from './invoice-items/invoice-items.service';
 
 import {
+  countInvoiceTotal,
   createInvoiceInDb,
   deleteInvoiceFromDb,
   getInvoiceFromDb,
@@ -38,7 +35,13 @@ export function createInvoice(
     .then(createdInvoice =>
       // create invoice items for current invoice
       createInvoiceItemsInDb(createdInvoice._id, newInvoice.items).then(() => {
-        res.status(201).json(createdInvoice);
+        countInvoiceTotal(createdInvoice._id, createdInvoice.discount).then(total =>
+          res.status(201).json({
+            // TODO: re-make without the toObject method
+            ...createdInvoice.toObject(),
+            total
+          })
+        );
       }),
     )
     .catch(next);
@@ -52,9 +55,14 @@ export function getInvoice(
   const invoiceId = req.params.id;
 
   getInvoiceFromDb(invoiceId)
-    .then(invoice => {
-      res.json(invoice);
-    })
+    .then(invoice =>
+      countInvoiceTotal(invoice._id, invoice.discount).then(total =>
+        res.json({
+          ...invoice,
+          total
+        })
+      )
+    )
     .catch(next);
 }
 
@@ -67,9 +75,14 @@ export function updateInvoice(
   const newFields = req.body;
 
   updateInvoiceInDb(invoiceId, newFields)
-    .then(updatedInvoice => {
-      res.json(updatedInvoice);
-    })
+    .then(updatedInvoice =>
+      countInvoiceTotal(updatedInvoice._id, updatedInvoice.discount).then(total =>
+        res.json({
+          ...updatedInvoice,
+          total
+        })
+      )
+    )
     .catch(next);
 }
 
