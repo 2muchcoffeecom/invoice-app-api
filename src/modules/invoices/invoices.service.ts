@@ -19,7 +19,7 @@ export function createInvoiceInDb(newInvoice: IInvoice): Promise<IInvoice> {
 }
 
 export async function getInvoiceFromDb(id: string): Promise<IInvoice> {
-  const invoice = await Invoice.findById(id);
+  const invoice = await Invoice.findById(id).lean();
   if (!invoice) {
     throw new HttpError('Invoice not found', 404);
   }
@@ -32,7 +32,7 @@ export async function updateInvoiceInDb(
 ): Promise<IInvoice> {
   const updatedEntity = await Invoice.findByIdAndUpdate(id, newFields, {
     new: true,
-  });
+  }).lean();
   if (!updatedEntity) {
     throw new HttpError('Invoice not found', 404);
   }
