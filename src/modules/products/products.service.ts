@@ -42,3 +42,7 @@ export async function deleteProductFromDb(id: string): Promise<IProduct> {
   }
   return deletedEntity;
 }
+
+export function getProductsForInvoice(ids: string[]): DocumentQuery<IProduct[], IProduct> {
+  return Product.find({ _id: { $in: ids } })
+}
