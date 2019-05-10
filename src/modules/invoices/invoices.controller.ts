@@ -1,5 +1,4 @@
 import { NextFunction, Request, Response } from 'express';
-import { Promise } from 'bluebird';
 
 import { createInvoiceItemsInDb } from './invoice-items/invoice-items.service';
 
@@ -8,7 +7,7 @@ import {
   createInvoiceInDb,
   deleteInvoiceFromDb,
   getInvoiceFromDb,
-  getInvoicesFromDb,
+  processGettingInvoices,
   updateInvoiceInDb,
 } from './invoices.service';
 
@@ -17,13 +16,9 @@ export function getInvoices(
   res: Response,
   next: NextFunction,
 ): void {
-  getInvoicesFromDb()
-    .then(invoices =>
-      Promise.map(invoices, invoice =>
-        countInvoiceTotal(invoice._id, invoice.discount).then(total => ({ ...invoice, total }))
-      ).then(invoicesWithTotal =>
-        res.json(invoicesWithTotal)
-      )
+  processGettingInvoices()
+    .then(invoicesWithTotal =>
+      res.json(invoicesWithTotal)
     )
     .catch(next);
 }

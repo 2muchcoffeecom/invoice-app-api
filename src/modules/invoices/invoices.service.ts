@@ -1,4 +1,5 @@
 import { DocumentQuery, Types } from 'mongoose';
+import { Promise as BluebirdPromise } from 'bluebird';
 
 import { IInvoice } from './invoice.interface';
 import Invoice from './invoice.schema';
@@ -42,6 +43,18 @@ export async function deleteInvoiceFromDb(id: string): Promise<IInvoice> {
     throw new HttpError('Invoice not found', 404);
   }
   return foundEntity.remove();
+}
+
+
+export async function processGettingInvoices(): Promise<any> {
+  const invoices = await getInvoicesFromDb();
+  return await BluebirdPromise.map(invoices, async invoice => {
+    const total = await countInvoiceTotal(invoice._id, invoice.discount);
+    return {
+      ...invoice,
+      total
+    }
+  });
 }
 
 export async function countInvoiceTotal(invoice_id: string, discount: number): Promise<number> {
