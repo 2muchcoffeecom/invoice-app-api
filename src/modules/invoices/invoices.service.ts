@@ -7,7 +7,7 @@ import InvoiceItem from './invoice-items/invoice-item.schema';
 import { HttpError } from 'utils/error-hadler/http-error';
 
 export function getInvoicesFromDb(): DocumentQuery<IInvoice[], IInvoice> {
-  return Invoice.find({});
+  return Invoice.find({}).lean();
 }
 
 export function createInvoiceInDb(newInvoice: IInvoice): Promise<IInvoice> {
