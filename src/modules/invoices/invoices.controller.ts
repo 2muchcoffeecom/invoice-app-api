@@ -18,9 +18,13 @@ export function getInvoices(
   next: NextFunction,
 ): void {
   getInvoicesFromDb()
-    .then(invoices => {
-      res.json(invoices);
-    })
+    .then(invoices =>
+      Promise.map(invoices, invoice =>
+        countInvoiceTotal(invoice._id, invoice.discount).then(total => ({ ...invoice, total }))
+      ).then(invoicesWithTotal =>
+        res.json(invoicesWithTotal)
+      )
+    )
     .catch(next);
 }
 
