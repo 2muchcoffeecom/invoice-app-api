@@ -35,7 +35,7 @@ export function createInvoice(
     .then(createdInvoice =>
       // create invoice items for current invoice
       createInvoiceItemsInDb(createdInvoice._id, newInvoice.items).then(() => {
-        countInvoiceTotal(createdInvoice._id).then(total =>
+        countInvoiceTotal(createdInvoice._id, createdInvoice.discount).then(total =>
           res.status(201).json({
             // TODO: re-make without the toObject method
             ...createdInvoice.toObject(),
@@ -56,7 +56,7 @@ export function getInvoice(
 
   getInvoiceFromDb(invoiceId)
     .then(invoice =>
-      countInvoiceTotal(invoice._id).then(total =>
+      countInvoiceTotal(invoice._id, invoice.discount).then(total =>
         res.json({
           ...invoice,
           total
@@ -76,7 +76,7 @@ export function updateInvoice(
 
   updateInvoiceInDb(invoiceId, newFields)
     .then(updatedInvoice =>
-      countInvoiceTotal(updatedInvoice._id).then(total =>
+      countInvoiceTotal(updatedInvoice._id, updatedInvoice.discount).then(total =>
         res.json({
           ...updatedInvoice,
           total

@@ -44,7 +44,7 @@ export async function deleteInvoiceFromDb(id: string): Promise<IInvoice> {
   return foundEntity.remove();
 }
 
-export async function countInvoiceTotal(invoice_id: string): Promise<number> {
+export async function countInvoiceTotal(invoice_id: string, discount: number): Promise<number> {
   const [result] = await InvoiceItem.aggregate([
     { $match: { invoice_id: Types.ObjectId(invoice_id) } },
     {
@@ -61,53 +61,26 @@ export async function countInvoiceTotal(invoice_id: string): Promise<number> {
     {
       $project: {
         invoice_id: 1,
-        totalWithoutDiscount: { $multiply: [ "$quantity", "$products.price" ] }
+        itemTotal: { $multiply: [ "$quantity", "$products.price" ] }
       }
     },
     {
       $group: {
         _id: '$invoice_id',
-        allQuantities: { $push: '$totalWithoutDiscount' },
+        allItemTotals: { $push: '$itemTotal' },
       },
     },
     {
       $project: {
         totalWithoutDiscount: {
-          $reduce: { input: '$allQuantities', initialValue: 0, in: { $sum: ['$$value', '$$this'] } },
+          $reduce: { input: '$allItemTotals', initialValue: 0, in: { $sum: ['$$value', '$$this'] } },
         },
       },
     },
     {
-      $lookup: {
-        from: "invoices",
-        localField: "_id",
-        foreignField: "_id",
-        as: "invoice"
-      }
-    },
-    {
-      $unwind: '$invoice'
-    },
-    {
-      $project: {
-        totalWithoutDiscount: 1,
-        discountDecimal: {
-          $divide: [ "$invoice.discount", 100 ]
-        },
-      }
-    },
-    {
-      $project: {
-        totalWithoutDiscount: 1,
-        afterDiscount: {
-          $subtract: [1, "$discountDecimal"]
-        },
-      }
-    },
-    {
       $project: {
         total: {
-          $multiply: [ "$totalWithoutDiscount", "$afterDiscount" ]
+          $multiply: [ "$totalWithoutDiscount", 1 - discount/100 ]
         }
       }
     },
