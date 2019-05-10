@@ -17,9 +17,7 @@ export function getInvoices(
   next: NextFunction,
 ): void {
   processGettingInvoices()
-    .then(invoicesWithTotal =>
-      res.json(invoicesWithTotal)
-    )
+    .then(invoicesWithTotal => res.json(invoicesWithTotal))
     .catch(next);
 }
 
@@ -34,12 +32,13 @@ export function createInvoice(
     .then(createdInvoice =>
       // create invoice items for current invoice
       createInvoiceItemsInDb(createdInvoice._id, newInvoice.items).then(() => {
-        countInvoiceTotal(createdInvoice._id, createdInvoice.discount).then(total =>
-          res.status(201).json({
-            // TODO: re-make without the toObject method
-            ...createdInvoice.toObject(),
-            total
-          })
+        countInvoiceTotal(createdInvoice._id, createdInvoice.discount).then(
+          total =>
+            res.status(201).json({
+              // TODO: re-make without the toObject method
+              ...createdInvoice.toObject(),
+              total,
+            }),
         );
       }),
     )
@@ -58,9 +57,9 @@ export function getInvoice(
       countInvoiceTotal(invoice._id, invoice.discount).then(total =>
         res.json({
           ...invoice,
-          total
-        })
-      )
+          total,
+        }),
+      ),
     )
     .catch(next);
 }
@@ -75,12 +74,13 @@ export function updateInvoice(
 
   updateInvoiceInDb(invoiceId, newFields)
     .then(updatedInvoice =>
-      countInvoiceTotal(updatedInvoice._id, updatedInvoice.discount).then(total =>
-        res.json({
-          ...updatedInvoice,
-          total
-        })
-      )
+      countInvoiceTotal(updatedInvoice._id, updatedInvoice.discount).then(
+        total =>
+          res.json({
+            ...updatedInvoice,
+            total,
+          }),
+      ),
     )
     .catch(next);
 }

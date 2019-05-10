@@ -45,37 +45,39 @@ export async function deleteInvoiceFromDb(id: string): Promise<IInvoice> {
   return foundEntity.remove();
 }
 
-
 export async function processGettingInvoices(): Promise<any> {
   const invoices = await getInvoicesFromDb();
   return await BluebirdPromise.map(invoices, async invoice => {
     const total = await countInvoiceTotal(invoice._id, invoice.discount);
     return {
       ...invoice,
-      total
-    }
+      total,
+    };
   });
 }
 
-export async function countInvoiceTotal(invoice_id: string, discount: number): Promise<number> {
+export async function countInvoiceTotal(
+  invoice_id: string,
+  discount: number,
+): Promise<number> {
   const [result] = await InvoiceItem.aggregate([
     { $match: { invoice_id: Types.ObjectId(invoice_id) } },
     {
       $lookup: {
-        from: "products",
-        localField: "product_id",
-        foreignField: "_id",
-        as: "products"
-      }
+        from: 'products',
+        localField: 'product_id',
+        foreignField: '_id',
+        as: 'products',
+      },
     },
     {
-      $unwind: '$products'
+      $unwind: '$products',
     },
     {
       $project: {
         invoice_id: 1,
-        itemTotal: { $multiply: [ "$quantity", "$products.price" ] }
-      }
+        itemTotal: { $multiply: ['$quantity', '$products.price'] },
+      },
     },
     {
       $group: {
@@ -86,16 +88,20 @@ export async function countInvoiceTotal(invoice_id: string, discount: number): P
     {
       $project: {
         totalWithoutDiscount: {
-          $reduce: { input: '$allItemTotals', initialValue: 0, in: { $sum: ['$$value', '$$this'] } },
+          $reduce: {
+            input: '$allItemTotals',
+            initialValue: 0,
+            in: { $sum: ['$$value', '$$this'] },
+          },
         },
       },
     },
     {
       $project: {
         total: {
-          $multiply: [ "$totalWithoutDiscount", 1 - discount/100 ]
-        }
-      }
+          $multiply: ['$totalWithoutDiscount', 1 - discount / 100],
+        },
+      },
     },
   ]);
 
